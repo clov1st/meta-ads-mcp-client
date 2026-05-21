@@ -58,6 +58,18 @@ Salin dari [`examples/cursor.mcp.json`](examples/cursor.mcp.json). Tanpa API key
 
 Restart Cursor sepenuhnya setelah menyimpan `mcp.json`.
 
+## Config Codex (disarankan)
+
+```powershell
+[System.Environment]::SetEnvironmentVariable("META_ADS_MCP_TOKEN", "clowy-mcp-server-PASTE_FROM_DASHBOARD", "User")
+codex mcp add meta_ads_mcp --url "https://meta-ads.clowy.biz.id/mcp" --bearer-token-env-var META_ADS_MCP_TOKEN
+codex mcp list
+```
+
+Harapan di `mcp list`: **Bearer Token Env Var** = `META_ADS_MCP_TOKEN`, **Auth** = `Bearer token`.
+
+Detail + uji PowerShell: [docs/codex.md](docs/codex.md), contoh [examples/codex.config.toml](examples/codex.config.toml).
+
 ## Panduan lengkap
 
 | Topik | Dokumen |

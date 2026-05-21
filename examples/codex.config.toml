@@ -1,9 +1,9 @@
-# Salin ke ~/.codex/config.toml (gabungkan dengan [mcp_servers] yang ada).
-# Set API key di OS dulu — jangan commit nilai nyata.
+# Salin ke ~/.codex/config.toml (gabungkan dengan entri lain).
+# Set META_ADS_MCP_TOKEN di Windows User env terlebih dahulu — lihat docs/codex.md
 
 [mcp_servers.meta_ads_mcp]
 url = "https://meta-ads.clowy.biz.id/mcp"
-env_http_headers = { "api-key" = "CLOVY_MCP_API_KEY" }
+bearer_token_env_var = "META_ADS_MCP_TOKEN"
 
-# Alternatif (server juga menerima Bearer jika nilai diawali clowy-mcp-server-):
-# bearer_token_env_var = "CLOVY_MCP_API_KEY"
+# CLI setara:
+#   codex mcp add meta_ads_mcp --url "https://meta-ads.clowy.biz.id/mcp" --bearer-token-env-var META_ADS_MCP_TOKEN

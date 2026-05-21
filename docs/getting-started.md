@@ -48,9 +48,18 @@ Ganti host jika self-hosted: `https://YOUR-HOST/mcp`.
 
 Restart Cursor → Settings → MCP → **Enabled**.
 
-### Claude / Codex
+### Codex
 
-Selalu kirim header `api-key` (lihat [claude.md](claude.md), [codex.md](codex.md)).
+```powershell
+[System.Environment]::SetEnvironmentVariable("META_ADS_MCP_TOKEN", "clowy-mcp-server-PASTE_KEY_DARI_DASHBOARD", "User")
+codex mcp add meta_ads_mcp --url "https://meta-ads.clowy.biz.id/mcp" --bearer-token-env-var META_ADS_MCP_TOKEN
+```
+
+Verifikasi: `codex mcp list` → `META_ADS_MCP_TOKEN` + `Bearer token`. Panduan lengkap: [codex.md](codex.md).
+
+### Claude
+
+Header `api-key` (lihat [claude.md](claude.md)).
 
 ## 5. Uji
 

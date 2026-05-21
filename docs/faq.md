@@ -68,15 +68,22 @@ curl -s https://meta-ads.clowy.biz.id/readyz
 
 `readyz` tidak memvalidasi API key Anda — hanya kesiapan server Meta app.
 
-## Codex: `codex mcp list` → Auth Unsupported, Bearer `-`
+## Codex: setup yang benar
 
-Itu **belum berarti server rusak**. Codex hanya menandai bahwa server tidak pakai OAuth/Bearer bawaan Codex. Yang penting: tambahkan di `~/.codex/config.toml`:
-
-```toml
-env_http_headers = { "api-key" = "CLOVY_MCP_API_KEY" }
+```powershell
+[System.Environment]::SetEnvironmentVariable("META_ADS_MCP_TOKEN", "clowy-mcp-server-...", "User")
+codex mcp add meta_ads_mcp --url "https://meta-ads.clowy.biz.id/mcp" --bearer-token-env-var META_ADS_MCP_TOKEN
 ```
 
-Tanpa itu, request ke `/mcp` tanpa key → tool tidak muncul untuk agent. Lihat [codex.md](codex.md).
+`codex mcp list` harus menampilkan **Bearer Token Env Var** = `META_ADS_MCP_TOKEN` dan **Auth** = `Bearer token`.
+
+## Codex: masih `Unsupported` dan Bearer `-`
+
+Belum ada `bearer_token_env_var` / env kosong. Ulangi setup di [codex.md](codex.md). **Jangan** pakai `$env:clowy-mcp-server-...` di PowerShell — nama env adalah `META_ADS_MCP_TOKEN`.
+
+## Codex: `env_http_headers` vs Bearer
+
+Keduanya valid. **Bearer + `META_ADS_MCP_TOKEN`** disarankan karena terlihat jelas di `codex mcp list`. Server menerima `Authorization: Bearer clowy-mcp-server-…` dan header `api-key`.
 
 ## Uji API key dari command line
 
