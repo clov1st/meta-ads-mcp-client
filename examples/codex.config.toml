@@ -1,13 +1,6 @@
-# Fragment untuk ~/.codex/config.toml (Codex CLI / Desktop)
-# Set variabel lingkungan dulu:
-#   Windows: setx FB_ACCESSTOKEN "EAAB..."
-#            setx MCP_API_KEY "your-mcp-api-key"
-#   Linux/macOS: export FB_ACCESSTOKEN=... MCP_API_KEY=...
+# Fragment — sesuaikan dengan dokumentasi Codex Anda.
+# Set CLOVY_MCP_API_KEY di OS terlebih dahulu.
 
 [mcp_servers.meta-ads-clowy]
 url = "https://meta-ads.clowy.biz.id/mcp"
-# Token Facebook — Codex memetakan ke Authorization: Bearer
-bearer_token_env_var = "FB_ACCESSTOKEN"
-
-# MCP API key: tambahkan header tambahan jika client Anda mendukung
-# beberapa header. Jika tidak, gunakan wrapper atau Cursor/Claude.
+# Gunakan mekanisme header api-key yang didukung versi Codex Anda

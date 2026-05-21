@@ -1,59 +1,43 @@
-# FAQ — Meta Ads MCP Client
+# FAQ — Meta Ads MCP Client (v0.3)
 
-## Apa itu layanan ini?
+## Apakah saya masih perlu token Facebook di Cursor?
 
-Server MCP yang mengekspos **18 tools** Meta Marketing API ke asisten AI (Cursor, Claude, dll.). Server di-host di `meta-ads.clowy.biz.id`; token Facebook milik **Anda** dikirim dari client.
+**Tidak** untuk production Clovy. Token Facebook disimpan di server setelah OAuth di dashboard. Client hanya mengirim **API key** (`clowy-mcp-server-…`).
 
-## Di mana saya menyimpan token?
+## Di mana membuat API key?
 
-| Data | Lokasi |
-|------|--------|
-| Facebook access token | MCP client `headers` atau env `FB_ACCESSTOKEN` |
-| MCP API key | Env `MCP_API_KEY` atau header `x-mcp-api-key` |
-| Meta App Secret | **Hanya di server** — tidak untuk client |
+[https://meta-ads.clowy.biz.id/app/](https://meta-ads.clowy.biz.id/app/) → Login → Integrations (Facebook) → API Keys.
 
-Jangan commit token ke GitHub atau kirim di chat publik.
+## Kenapa menu API Keys terkunci?
 
-## Bagaimana cara mendapat MCP API key?
+Anda belum menghubungkan akun Facebook. Selesaikan **Integrations → Connect Facebook** dulu.
 
-Minta ke **administrator layanan** Meta Ads MCP Clovy. Key ini membedakan akses ke endpoint publik `POST /mcp`.
+## Bisa beberapa akun Facebook?
 
-## Mengapa error `Missing fb_accestoken`?
+Ya. Setiap koneksi bisa punya **maksimal satu** API key. Buat key terpisah per koneksi jika perlu.
 
-Client HTTP tidak mengirim field custom `fb_accestoken` di samping `url`. Gunakan:
+## Format config Cursor
 
 ```json
-"headers": { "x-fb-accestoken": "..." }
+"url": "https://meta-ads.clowy.biz.id/mcp",
+"api-key": "clowy-mcp-server-..."
 ```
 
-## HTTP 401 Unauthorized
+Jika tidak jalan, gunakan `headers.api-key` (lihat [cursor.md](cursor.md)).
 
-- Header `x-mcp-api-key` kosong atau salah.
-- Atau `Authorization: Bearer` berisi MCP key, bukan token Facebook (untuk key server, gunakan header `x-mcp-api-key`).
+## Apakah `x-mcp-api-key` atau `x-fb-accestoken` masih dipakai?
 
-## HTTP 403 Origin is not allowed
+v0.3 production memakai **`api-key`** (atau `x-api-key`). `x-fb-accestoken` hanya untuk debugging/self-hosted lama.
 
-Server production memakai origin guard. Client desktop MCP biasanya **tidak** mengirim header `Origin`. Jika Anda memakai client berbasis browser, hubungi administrator untuk menambahkan origin ke allowlist.
+## Token Facebook kedaluwarsa?
 
-## Error permission dari Meta
+Long-lived token Meta (~60 hari). Jika tools gagal, buka dashboard → reconnect Facebook → buat key baru jika perlu.
 
-Token valid secara format tetapi scope kurang. Perbarui token di [Meta for Developers](https://developers.facebook.com/) / Business Manager dengan permission yang dibutuhkan (`ads_read`, `ads_management`, dll.).
-
-## Apakah `readyz` berarti token saya OK?
-
-`GET /readyz` hanya mengecek **kredensial aplikasi Meta di server** dan koneksi Graph API. Token **user** Anda divalidasi saat pertama kali memanggil tool MCP.
-
-## Endpoint health
+## Health check
 
 ```bash
 curl -s https://meta-ads.clowy.biz.id/healthz
 curl -s https://meta-ads.clowy.biz.id/readyz
 ```
 
-## Versi server
-
-Dokumentasi ini untuk server **v0.2.0**. Jika administrator meng-upgrade server, daftar tools bisa berubah — lihat [tools.md](tools.md).
-
-## Self-hosted sendiri?
-
-Panduan ini untuk **hosted** `meta-ads.clowy.biz.id`. Self-hosted memerlukan repo server terpisah (privat) dan konfigurasi deploy sendiri — tidak dicakup di repo dokumentasi client ini.
+`readyz` tidak memvalidasi API key Anda — hanya server Meta app.

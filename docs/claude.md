@@ -1,63 +1,32 @@
-# Claude — Meta Ads MCP
+# Claude — Meta Ads MCP (Clovy)
 
-Endpoint production: `https://meta-ads.clowy.biz.id/mcp`
+Dapatkan API key dari [dashboard](https://meta-ads.clowy.biz.id/app/) terlebih dahulu.
 
-## Claude Code (CLI)
-
-Gunakan script contoh atau jalankan manual:
+## Claude Code CLI
 
 ```bash
-export FB_ACCESSTOKEN="EAAB..."
-export MCP_API_KEY="your-mcp-api-key"
+export CLOVY_MCP_API_KEY="clowy-mcp-server-..."
 
 claude mcp add meta-ads-clowy \
   --transport http \
   --url "https://meta-ads.clowy.biz.id/mcp" \
-  --header "x-fb-accestoken: ${FB_ACCESSTOKEN}" \
-  --header "x-mcp-api-key: ${MCP_API_KEY}"
+  --header "api-key: ${CLOVY_MCP_API_KEY}"
 ```
 
-Atau salin [`examples/claude-code.sh`](../examples/claude-code.sh), edit placeholder, lalu:
-
-```bash
-chmod +x examples/claude-code.sh
-./examples/claude-code.sh
-```
-
-Verifikasi:
-
-```bash
-claude mcp list
-```
+Atau [`examples/claude-code.sh`](../examples/claude-code.sh).
 
 ## Claude Desktop
 
-Desktop umumnya memakai **stdio** atau proxy HTTP. Untuk server hosted Clovy, gunakan **HTTP** via `mcp-remote` (jika tersedia di instalasi Anda):
+Gunakan `mcp-remote` atau config setara dengan header `api-key`:
 
 ```bash
 npx -y mcp-remote@latest \
   https://meta-ads.clowy.biz.id/mcp \
-  --header "x-fb-accestoken: EAAB..." \
-  --header "x-mcp-api-key: your-mcp-api-key"
+  --header "api-key: clowy-mcp-server-..."
 ```
 
-Tambahkan entri di config MCP Desktop sesuai dokumentasi versi Claude Desktop Anda, dengan command di atas.
+## Verifikasi
 
-> Versi UI Claude Desktop berubah; ikuti menu **Settings → Developer → MCP** untuk format terbaru.
+`claude mcp list` — server harus terdaftar.
 
-## Header yang diperlukan
-
-| Header | Isi |
-|--------|-----|
-| `x-fb-accestoken` | Facebook user access token |
-| `x-mcp-api-key` | MCP API key dari administrator |
-
-Alternatif token Facebook: `Authorization: Bearer <token>` atau `x-fb-access-token`.
-
-## Stdio (hanya self-hosted / developer)
-
-Mode stdio membutuhkan menjalankan binary server lokal + `META_APP_ID` / `META_APP_SECRET` di environment. **Tidak** dipakai untuk endpoint production `meta-ads.clowy.biz.id`. Pengguna production cukup HTTP seperti di [cursor.md](cursor.md).
-
-## Troubleshooting
-
-Lihat [faq.md](faq.md).
+[faq.md](faq.md)

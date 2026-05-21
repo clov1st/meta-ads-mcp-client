@@ -1,27 +1,29 @@
-# Cursor — Meta Ads MCP
+# Cursor — Meta Ads MCP (Clovy)
 
-## Endpoint
+## Prasyarat
 
-```text
-https://meta-ads.clowy.biz.id/mcp
+API key dari [dashboard Clovy](https://meta-ads.clowy.biz.id/app/) setelah Facebook terhubung.
+
+## Config utama
+
+File: `%USERPROFILE%\.cursor\mcp.json` (Windows) atau `~/.cursor/mcp.json`
+
+```json
+{
+  "mcpServers": {
+    "Meta Ads MCP": {
+      "url": "https://meta-ads.clowy.biz.id/mcp",
+      "api-key": "clowy-mcp-server-YOUR_KEY"
+    }
+  }
+}
 ```
 
-## Instalasi config
+Restart Cursor sepenuhnya.
 
-### Opsi A — File global (disarankan)
+## Fallback header
 
-1. Salin [`examples/cursor.mcp.json`](../examples/cursor.mcp.json) atau [`examples/cursor.mcp.json.env`](../examples/cursor.mcp.json.env).
-2. Simpan sebagai:
-   - **Windows:** `%USERPROFILE%\.cursor\mcp.json`
-   - **macOS / Linux:** `~/.cursor/mcp.json`
-3. Isi token dan API key (lihat bawah).
-4. **Restart Cursor** sepenuhnya.
-
-### Opsi B — Per project
-
-Salin ke `.cursor/mcp.json` di root workspace. Pastikan file ini **tidak** di-commit jika berisi token nyata.
-
-## Config lengkap
+Jika MCP Logs menunjukkan error API key / unauthorized, Cursor mungkin tidak meneruskan field root `api-key`. Gunakan:
 
 ```json
 {
@@ -29,68 +31,39 @@ Salin ke `.cursor/mcp.json` di root workspace. Pastikan file ini **tidak** di-co
     "Meta Ads MCP": {
       "url": "https://meta-ads.clowy.biz.id/mcp",
       "headers": {
-        "x-fb-accestoken": "EAAB...",
-        "x-mcp-api-key": "your-mcp-api-key"
+        "api-key": "clowy-mcp-server-YOUR_KEY"
       }
     }
   }
 }
 ```
 
-### Pakai variabel lingkungan (lebih aman)
+## Variabel lingkungan
 
 ```json
-{
-  "mcpServers": {
-    "Meta Ads MCP": {
-      "url": "https://meta-ads.clowy.biz.id/mcp",
-      "headers": {
-        "x-fb-accestoken": "${env:FB_ACCESSTOKEN}",
-        "x-mcp-api-key": "${env:MCP_API_KEY}"
-      }
-    }
-  }
+"headers": {
+  "api-key": "${env:CLOVY_MCP_API_KEY}"
 }
 ```
 
-**Windows (PowerShell, sekali):**
+PowerShell (sekali):
 
 ```powershell
-[System.Environment]::SetEnvironmentVariable("FB_ACCESSTOKEN", "EAAB...", "User")
-[System.Environment]::SetEnvironmentVariable("MCP_API_KEY", "your-key", "User")
-```
-
-Tutup dan buka ulang Cursor setelah set env.
-
-## Penting: jangan pakai field `fb_accestoken` di samping `url`
-
-Cursor **tidak** meneruskan field custom di level atas ke server HTTP. Token harus di **`headers`**:
-
-```json
-"headers": { "x-fb-accestoken": "..." }
-```
-
-Bukan:
-
-```json
-"fb_accestoken": "..."
+[System.Environment]::SetEnvironmentVariable("CLOVY_MCP_API_KEY", "clowy-mcp-server-...", "User")
 ```
 
 ## Verifikasi
 
-1. **Settings → MCP** — server **Meta Ads MCP** enabled (hijau).
-2. **Output → MCP Logs** — tidak ada error 401/403.
-3. Di chat Agent, jalankan tool `meta_ads_get_account_info` tanpa argumen `fb_accestoken`.
-4. Harapan: JSON akun atau error permission Meta — **bukan** `Missing fb_accestoken`.
+1. Settings → MCP → **Meta Ads MCP** enabled
+2. Tool `meta_ads_get_account_info` di Agent chat
+3. Output → MCP Logs jika gagal
 
 ## Troubleshooting
 
-| Gejala | Penyebab | Solusi |
-|--------|----------|--------|
-| `Missing fb_accestoken` | Header tidak terkirim | Pakai `headers.x-fb-accestoken`, restart Cursor |
-| HTTP 401 | API key salah/kosong | Isi `x-mcp-api-key` dari administrator |
-| HTTP 403 Origin | Jarang di Cursor desktop | Hubungi admin jika pakai client web |
-| Timeout | Jaringan / firewall | Cek `curl https://meta-ads.clowy.biz.id/healthz` |
-| Meta permission error | Scope token kurang | Perbarui token di Meta Developer / Business Manager |
+| Gejala | Solusi |
+|--------|--------|
+| 401 Unauthorized | Key salah / dicabut — buat key baru di dashboard |
+| Facebook permission error | Reconnect Facebook di Integrations |
+| Field ignored | Pakai `headers.api-key` fallback |
 
-Lihat juga [faq.md](faq.md).
+[faq.md](faq.md)

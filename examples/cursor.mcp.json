@@ -2,10 +2,7 @@
   "mcpServers": {
     "Meta Ads MCP": {
       "url": "https://meta-ads.clowy.biz.id/mcp",
-      "headers": {
-        "x-fb-accestoken": "REPLACE_WITH_YOUR_FB_ACCESS_TOKEN",
-        "x-mcp-api-key": "REPLACE_WITH_MCP_API_KEY_FROM_ADMIN"
-      }
+      "api-key": "clowy-mcp-server-PASTE_FROM_CLOVY_DASHBOARD"
     }
   }
 }
