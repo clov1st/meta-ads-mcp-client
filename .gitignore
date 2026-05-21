@@ -1,0 +1,12 @@
+# Jangan commit config berisi token nyata
+.cursor/mcp.json
+**/mcp.json.local
+.env
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
