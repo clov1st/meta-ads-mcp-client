@@ -2,7 +2,9 @@
   "mcpServers": {
     "Meta Ads MCP": {
       "url": "https://meta-ads.clowy.biz.id/mcp",
-      "api-key": "clowy-mcp-server-PASTE_FROM_CLOVY_DASHBOARD"
+      "headers": {
+        "api-key": "clowy-mcp-server-PASTE_FROM_CLOVY_DASHBOARD"
+      }
     }
   }
 }

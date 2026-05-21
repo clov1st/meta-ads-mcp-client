@@ -6,37 +6,25 @@ Dokumentasi untuk menghubungkan **Cursor**, **Claude**, **Codex**, dan client MC
 
 ## Mulai di dashboard
 
-1. Buka **[https://meta-ads.clowy.biz.id/app/](https://meta-ads.clowy.biz.id/app/)**
+1. Buka dashboard Clovy (production: **[https://meta-ads.clowy.biz.id/app/](https://meta-ads.clowy.biz.id/app/)**)
 2. **Register** → **Login**
 3. Menu **Integrations** → **Connect Facebook**
-4. Menu **API Keys** (terbuka setelah Facebook terhubung) → **Create** → pilih koneksi Facebook → salin API key
+4. Menu **API Keys** (terbuka setelah Facebook terhubung) → **Create** → pilih koneksi Facebook → salin API key **sekali** (format `clowy-mcp-server-…`)
 
-## Endpoint
+## Endpoint (production Clovy)
 
 | Item | Nilai |
 |------|--------|
 | **MCP URL** | `https://meta-ads.clowy.biz.id/mcp` |
 | **Dashboard** | `https://meta-ads.clowy.biz.id/app/` |
-| **Versi server** | `0.3.0` |
 
-## Config Cursor (utama)
+Self-hosted / host lain: ganti host, tetap path **`/mcp`** dan **`/app/`**.
 
-```json
-{
-  "mcpServers": {
-    "Meta Ads MCP": {
-      "url": "https://meta-ads.clowy.biz.id/mcp",
-      "api-key": "clowy-mcp-server-PASTE_FROM_DASHBOARD"
-    }
-  }
-}
-```
+## Config Cursor (disarankan)
 
-Salin dari [`examples/cursor.mcp.json`](examples/cursor.mcp.json).
+Gunakan **`headers.api-key`** — ini format yang benar untuk Cursor saat ini (termasuk MCP V2). Field root `"api-key"` di luar `headers` sering **diabaikan**; Cursor lalu mencoba OAuth (`POST /register`) dan gagal.
 
-### Jika Cursor tidak mengenali `api-key` di root
-
-Gunakan header (perilaku server sama):
+File: `%USERPROFILE%\.cursor\mcp.json` (Windows) atau `~/.cursor/mcp.json`
 
 ```json
 {
@@ -51,7 +39,24 @@ Gunakan header (perilaku server sama):
 }
 ```
 
-Atau env: [`examples/cursor.mcp.json.env`](examples/cursor.mcp.json.env).
+Salin dari [`examples/cursor.mcp.json`](examples/cursor.mcp.json). Tanpa API key di commit — gunakan [`examples/cursor.mcp.json.env`](examples/cursor.mcp.json.env) + variabel `CLOVY_MCP_API_KEY`.
+
+**Host sendiri:**
+
+```json
+{
+  "mcpServers": {
+    "Meta Ads MCP": {
+      "url": "https://YOUR-HOST.example.com/mcp",
+      "headers": {
+        "api-key": "clowy-mcp-server-..."
+      }
+    }
+  }
+}
+```
+
+Restart Cursor sepenuhnya setelah menyimpan `mcp.json`.
 
 ## Panduan lengkap
 

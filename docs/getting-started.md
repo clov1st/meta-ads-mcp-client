@@ -1,10 +1,12 @@
-# Memulai — Meta Ads MCP (Clovy v0.3)
+# Memulai — Meta Ads MCP (Clovy v0.3+)
 
 ## 1. Akun Clovy
 
-1. Buka [https://meta-ads.clowy.biz.id/app/](https://meta-ads.clowy.biz.id/app/)
+1. Buka dashboard (production: [https://meta-ads.clowy.biz.id/app/](https://meta-ads.clowy.biz.id/app/))
 2. **Register** dengan email dan password
 3. **Login**
+
+Host lain: `https://YOUR-HOST/app/`
 
 ## 2. Hubungkan Facebook
 
@@ -23,24 +25,36 @@ Aturan: **1 API key ↔ 1 koneksi Facebook**.
 
 ## 4. Config MCP client
 
-**Cursor** — `%USERPROFILE%\.cursor\mcp.json`:
+### Cursor (disarankan)
+
+`%USERPROFILE%\.cursor\mcp.json` (Windows) atau `~/.cursor/mcp.json`:
 
 ```json
 {
   "mcpServers": {
     "Meta Ads MCP": {
       "url": "https://meta-ads.clowy.biz.id/mcp",
-      "api-key": "clowy-mcp-server-..."
+      "headers": {
+        "api-key": "clowy-mcp-server-PASTE_KEY_DARI_DASHBOARD"
+      }
     }
   }
 }
 ```
 
-Restart Cursor → Settings → MCP → enabled.
+Ganti host jika self-hosted: `https://YOUR-HOST/mcp`.
+
+**Penting:** letakkan key di dalam **`headers`**, bukan field `"api-key"` di root objek server.
+
+Restart Cursor → Settings → MCP → **Enabled**.
+
+### Claude / Codex
+
+Selalu kirim header `api-key` (lihat [claude.md](claude.md), [codex.md](codex.md)).
 
 ## 5. Uji
 
-Di chat Agent, jalankan `meta_ads_get_account_info` tanpa argumen token.
+Di chat Agent (Cursor), jalankan `meta_ads_get_account_info` tanpa argumen token Facebook.
 
 ## Client lain
 
