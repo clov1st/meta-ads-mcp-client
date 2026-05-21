@@ -68,6 +68,16 @@ curl -s https://meta-ads.clowy.biz.id/readyz
 
 `readyz` tidak memvalidasi API key Anda — hanya kesiapan server Meta app.
 
+## Codex: `codex mcp list` → Auth Unsupported, Bearer `-`
+
+Itu **belum berarti server rusak**. Codex hanya menandai bahwa server tidak pakai OAuth/Bearer bawaan Codex. Yang penting: tambahkan di `~/.codex/config.toml`:
+
+```toml
+env_http_headers = { "api-key" = "CLOVY_MCP_API_KEY" }
+```
+
+Tanpa itu, request ke `/mcp` tanpa key → tool tidak muncul untuk agent. Lihat [codex.md](codex.md).
+
 ## Uji API key dari command line
 
 ```bash

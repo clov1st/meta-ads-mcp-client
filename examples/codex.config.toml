@@ -1,6 +1,9 @@
-# Fragment — sesuaikan dengan dokumentasi Codex Anda.
-# Set CLOVY_MCP_API_KEY di OS terlebih dahulu.
+# Salin ke ~/.codex/config.toml (gabungkan dengan [mcp_servers] yang ada).
+# Set API key di OS dulu — jangan commit nilai nyata.
 
-[mcp_servers.meta-ads-clowy]
+[mcp_servers.meta_ads_mcp]
 url = "https://meta-ads.clowy.biz.id/mcp"
-# Gunakan mekanisme header api-key yang didukung versi Codex Anda
+env_http_headers = { "api-key" = "CLOVY_MCP_API_KEY" }
+
+# Alternatif (server juga menerima Bearer jika nilai diawali clowy-mcp-server-):
+# bearer_token_env_var = "CLOVY_MCP_API_KEY"
